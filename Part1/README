@@ -1,0 +1,48 @@
+Calin Dragos Stefan 325CA
+Proiect POO - Etapa 1
+
+	Rezolvarea temei se bazeaza pe interactiunea dintre clasa Hero si
+subclasele sale si clasa Abilities si subclasa sale, cu logica jocului
+(desfasurarea rundelor) implementata in clasa Main.
+	Clasa Hero defineste tipul generic al unui erou, cu atribute de genul xp,
+hp, pozitia pe Map, dar si cu atribute in care se retine valoarea damageului
+overtime aplicat asupra eroului, precum si durata in runde a acestui damage.
+Tot in aceasta superclasa avem si functii care aplica damage-ul overtime, care
+calculeaza eventualitatea level-upului, si cel mai important, avem doua functii
+statice in care se realizeaza lupta dintre doi eroi si atribuirea de xp
+castigatorului. Aici intervin abilitatile si conceptul de double-dispatch.
+	Am ales ca abiliatile fiecarui tip de erou sa fie entitati relativ separate
+de eroul care le aplica, astfel incat pentru fiecare tip de erou am creat si
+clasa TipErouAbilities, care are ca functii de baza functia attacks. Functia
+este supra-incarcata si primeste ca parametru un erou de un anumit tip, si, in
+functie de acest tip, calculeaza cat damage ar trebui sa ii dea si/sau ce
+efecte sa ii aplice eroului. Astfel, cu Abilities se modifica hp-ul eroului
+atacat si atributele de damage overtime. La randul lor, in Hero si subclase
+avem functia getsAttackedBy(Abilities), in care eroul atacat "accepta"
+aplicarea abilitatilor asupra lui, realizandu-se astfel conceptul de
+double-dispatch. Pe de alta parte, legatura dintre abilitati si eroul care
+le aplica se realizeaza in constructor, unde avem ca parametru si un erou, iar
+unele atribute ale abilitatilor sunt modificare de nivelul eroului respectiv,
+de exemplu. Totusi, TipErouAbilities nu e conditionata direct de TipErou,
+astfel incat, la o extindere ulterioara a cerintelor, as putea sa creez
+alte tipuri de eroi care sa se foloseasca de abilitatile deja existente.
+	Revenind la functia de lupta, ea primeste, printre altele, ca parametri,
+doi eroi, hero1 si hero2. In functie de tipul lui hero1, se creeaza setul de
+abilitati corespunzator acelui erou, apoi hero2 este atacat de aceste
+abilitati. Flexibilitatea sporita de care vorbeam mai sus ma ajuta, daca,
+de exemplu as avea un nou tip de erou, PyroKnight, care ar avea abilitatile
+ambilor eroi. Astfel, in lupta, am crea un PyroAbilities si un KnightAbilities
+cu care am ataca oponentul.
+	In Main am facut citirea datelor din fisier, formarea unui Map pe care se
+va desfasura jocul, formarea arraylist-ului de eroi, iar apoi, pentru fiecare
+runda: aplicam eventualul damage overtime, realizam mutarile conform inputului
+si conform posibilitatii de miscare a eroului, faceam luptele, dadeam xp si
+faceam lvl-up, eliminand mereu eroii care mureau, fie de la lupta, fie de la
+damage over time.
+	Cele mai mari dificultati mi le-a pus, la implementarea gandita de mine,
+crearea lui WizardAbilities, unde aveam nevoie de mult mai multe informatii
+de la eroul atacat, inclusiv de damage-ul pe care acesta l-ar da wizard-ului
+care aplica wizardAbilities. Dar in WizardAbilities eu nu am niciun wizard,
+astfel incat, cum relatia "abilitati ataca erou" nu e reflexiva, a trebuit
+sa imi adaug mai multe atribute si if-uri in functii pentru a calcula
+damage-ul din care ar reiesi defelct. 
