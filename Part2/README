@@ -1,0 +1,69 @@
+Calin Dragos Stefan 325CA
+Proiect POO - Etapa 2
+
+	Pentru rezolvarea celei de-a doua etape am plecat de la implementarea
+de la prima etapa, pastrand clasele pentru eroi si abilitati si avand
+aceeasi legatura dintre ele, asa cum am explicat in primul README. De mentionat
+ca au fost adaugate doua noi atribute corespunzatoare modificatorilor de
+coeficienti de damage - unul de la ingeri si unul de la strategii.
+	Bineinteles, a trebuit sa adaug pachetul pentru ingeri, in care, pornind
+de la clasa abstracta parinte Angel, am creat toate subclasele cu fiecare
+tip de inger. Fiecare tip de inger va suprascrie in clasa proprie metodele
+de visit pentru fiecare tip de erou, si metoda de visitPrint, folosita la
+notificarea marelui magician, in care avem mesajul care se afiseaza cand un
+inger actioneaza asupra unui erou. In fiecare clasa din pachetul heroes,
+completez design-pattern-ul de Visitor si adaug functia de accept, in care
+fiecare erou accepta actiunea ingerilor. Conform cerintei, am, atat pentru
+ingeri cat si pentru eroi, clase de Factory cu functia de creare inger/erou,
+conform desig-pattern-ului respectiv.
+	Un alt pachet foarte important adaugat in aceasta etapa a temei este
+pachetul de strategii, in care am creat clasele pentru strategia fiecarui
+tip de erou. Superclasa are doua atribute, modificatorul de hp si cel de
+coeficienti de damage, si apoi, in fiecare subclasa, constructorul
+primeste ca parametru un erou, si, in functie de hp-ul acestuia, le da
+valori celor doi modificatori. In clasa Hero, am creat functia applyStrat,
+care face o strategie pe baza instantei curente si apoi modifica hp-ul si
+modificatorii de coeficienti conform acestei strategii. Sunt constient ca nu
+am aplicat design-pattern-ul de Strategy exact asa cum este el definit, dar
+am considerat ca este mai eficient si mai simplu sa ma limitez la o functie
+cu 3 if-uri si 2 linii de cod pentru fiecare if, cu care voi modifica doua
+atribute din Hero, decat sa creez cate trei clase pentru fiecare tip de erou,
+fiind insa nevoit tot sa am acele if-uri. Am considerat ca functia de
+applyStrat si clasa abstracta comuna sunt asemanatoare cu conceptele din
+design-pattern-ul clasic, si am decis sa le utilizez in acest fel, fiind mai
+convenabil pentru felul in care am gandit rezolvarea problemei pana in acel
+punct. Poate daca as fi gandit altfel eroii si abilitatile la etapa 1, ar fi
+fost mult mai util sa aplic Strategy in modul standard, dar strict pentru a
+rezolva cerintele de acum cu codul pe care il aveam deja, am implementat asa
+pentru a scrie mult mai putin cod care are, dupa parerea mea, acelasi grad de
+genericitate cu situatia in care utilizam un Strategy clean.
+	Acum ca am discutat si de strategii si de ingeri, pot reveni la noile
+modificari de la abilitati, unde am pastrat acelasi concept de la etapa 1,
+in care abilitatea e creata in functie de eroul primit in constructor, si am
+mai adaugat noii modificatori de damage, de la inger si de la strategie,
+preluandu-i practic pe cei de din eroul dat ca parametru. Am modificat putin
+functiile de atac, ca sa se potriveasca cu noile cerinte.
+	In final, ultima mare modificare adusa de etapa 2 este Marele Magician,
+pe care l-am gandit ca un observer pentru jocul in sine. In mare parte, am
+ales sa fac afisarile cu ajutorul lui, iar ideea din spate este urmatoarea:
+de fiecare data cand in joc se produc modificarile care il intereseaza pe
+marele magician, acesta este notificat, iar functiile de notificare sunt
+print-urile care se cer. Astfel, functiile de getNotified sunt update-urile.
+Avand in vedere ca marele magician e singleton, am ales sa ma folosesc de
+acest aspect si pentru a-l notifica pe marele magician din functia de
+winner din clasa Hero.
+	Altfe modificari fata de etapa 1 sunt ca am facut si harta singleton si
+ca am adaugat clasa Game care face main-ul mai putin incarcat. Aici functia
+cea mai importanta este cea de playRound, in care e implementata logica pentru
+o singura runda. Pentru inceput o sa imi stochez intr-un vector ingerii rundei
+respective din vectorul in care am stocat input-ul, apoi calculez pentru
+fiecare erou noul hp in functie de cat damage overtime a primit, apoi, pentru
+eroi inca in viata, aplic strategia, care poate modifica hp-ul si coeficientii
+de damage. Apoi, ii mut pe cei care nu sunt imobilizati conform input-ului, si
+realizez luptele, verific daca cineva face level-up (aici magicianul va fi
+notificat) si in final, fiecare inger din runda isi va aplica actiunea asupra
+eroilor, notificand magicianul. Se face level-up daca e nevoie.
+	In main realizez citirea input-ului si aplic functiile statice din Game.
+(pentru ca in Game nu am decat functii statice, constructor privat si niciun
+atribut si clasa e finala, am considerat ca nu mai e necesar sa o fac
+singleton).
